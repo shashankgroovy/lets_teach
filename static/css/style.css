@@ -1,0 +1,20 @@
+  html {
+    background: url('/home/shashank/Downloads/web statics/background.jpg');
+    color: #7d7d7d;
+    font-size: 18px;
+    
+    /*text-transform: uppercase;*/
+    letter-spacing: 2px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  body {
+    padding: 30px;
+    background-color: #EAEAEA;
+    color: #94BD5E;
+    margin-left: 0px;
+    margin-right: 0px;
+    clear:both;
+  }
+  .left{ float: left;font-family: 'Condiment', cursive;}
+

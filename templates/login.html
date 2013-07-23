@@ -1,0 +1,38 @@
+<!--{% extends "base.html" %}-->
+{% block extrahead %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+<form action="" method="POST">
+  {% csrf_token %}
+  {% if form.errors %}<p>Please correct the following fields:</p>{% endif %}
+
+  <div class="register_div">
+    {% if form.username.errors %}
+      <p class="error">{{ form.username.errors }}</p>
+    {% endif %}
+    <p><label for="username"{% if form.username.errors %} class="error" {% endif %}>Username:</label></p>
+    <p>{{ form.username }}</p>
+  </div>
+
+
+  <div class="register_div">
+    {% if form.password.errors %}
+      <p class="error">{{f form.password.errors }}</p>
+    {% endif %}
+    <p><label for="password"{% if form.password.errors %} class="error" {% endif %}>Password:</label></p>
+    <p>{{ form.password }}</p>
+  </div>
+
+  <div class="register_div">
+    {% if form.birthday.errors %}
+      <p class="error">{{f form.birthday.errors }}</p>
+    {% endif %}
+    <p><label for="birthday"{% if form.birthday.errors %} class="error" {% endif %}>Birthday:</label></p>
+    <p>{{ form.birthday }}</p>
+  </div>
+
+  <p><input type="submit" alt="register"></p>
+</form>
+{% endblock %}

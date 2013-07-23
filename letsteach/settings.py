@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'letsteach',                      # Or path to database file if using sqlite3.
+        'NAME': 'lt1',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'shashank',
         'PASSWORD': 'linux',
@@ -113,6 +113,9 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+# provide our get_profile()
+AUTH_PROFILE_MODULE = "account.Account"
+
 DJANGO_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,17 +124,17 @@ DJANGO_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
 
 LOCAL_APPS = (
-
+    'accounts',
 )
 
 THIRD_PARTY_APPS = (
-    'south',
+    # 'south',
 )
 
 INSTALLED_APPS = THIRD_PARTY_APPS + LOCAL_APPS + DJANGO_APPS
