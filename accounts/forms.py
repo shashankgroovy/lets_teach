@@ -4,10 +4,10 @@ from django.forms import ModelForm
 from accounts.models import Account
 
 class RegistrationForm(ModelForm):
-    username = forms.CharField(label=(u"User Name"))
-    email = forms.EmailField(label=(u"Email Address"))
-    password = forms.CharField(label(u"Password"), widget=forms.PasswordInput(render_value=False))
-    password1 = forms.CharField(label(u"Verify Password"), widget=forms.PasswordInput(render_value=False))
+    username = forms.CharField()
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput(render_value=False))
+    password1 = forms.CharField(widget=forms.PasswordInput(render_value=False))
 
     class Meta:
         model = Account

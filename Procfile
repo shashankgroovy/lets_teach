@@ -1,0 +1,1 @@
+web: gunicorn lets_teach.wsgi

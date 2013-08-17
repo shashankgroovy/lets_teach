@@ -1,26 +1,22 @@
-# Django settings for letsteach project.
+import os
+import dj_database_url
 
-DEBUG = True
+here = lambda * x: os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
+PROJECT_ROOT = here("..")
+root = lambda * x: os.path.join(os.path.abspath(PROJECT_ROOT), *x)
+
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Shashank', 'shashankgrovy@gmail.com'),
+     ('Shashank', 'shashankgrovy@gmail.com')
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'lt1',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': 'shashank',
-        'PASSWORD': 'linux',
-        'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '3306',                      # Set to empty string for default.
-    }
+    'default': dj_database_url.config()
 }
-
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
@@ -69,9 +65,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    root("assets"),
 )
 
 # List of finder classes that know how to find static files in
@@ -111,6 +105,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    #os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'templates'))
 )
 
 # provide our get_profile()

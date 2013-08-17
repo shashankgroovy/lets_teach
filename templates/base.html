@@ -7,6 +7,19 @@
   {% block extrahead %}{% endblock %}
 </head>
 <body>
-  <h1 class="left">Lets Teach</h1>
+  <div class="container">
+    <h1 class="left">Lets Teach</h1>
+
+    <div id="navtop">
+      {% if user.is_authenticated %}
+        <p><a href="/logout/">Logout</a></p>
+      {% else %}
+        <p><a href="/login/">Login</a></p>
+      {% endif %}
+    </div>
+
+    {% block content %}
+    {% endblock %}
+  </div>
 </body>
 </html>
