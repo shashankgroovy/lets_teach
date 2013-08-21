@@ -21,7 +21,7 @@ class UserProfile(models.Model):
     # Teaching details
     subject = models.CharField(max_length=100)
 
-    # Outloud details
+    # Messages details
     follow = models.ManyToManyField('self', related_name='followed_by', symmetrical=False)
 
     def gravatar_url(self):
@@ -30,3 +30,12 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.name
 
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
+class Messages(models.Model):
+    content = models.CharField(max_length=140)
+    user = models.ForeignKey(User)
+    creation_date = models.DateTimeField(auto_now=True, blank=True)
+
+    def __unicode__(self):
+        return self.content
