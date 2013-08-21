@@ -14,7 +14,7 @@ def index(request, auth_form=None, user_form=None):
     # User is logged in
     # Make the News Feed
     if request.user.is_authenticated():
-        message_form = MessageForm()
+        message_form = MessagesForm()
         user = request.user
         messages_self = Messages.objects.filter(user=user.id)
         messages_friends = Messages.objects.filter(user__userprofile__in=user.profile.follows.all)
@@ -63,25 +63,92 @@ def signup(request):
 def login_view(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect("/profile/")
+
     if request.method == "POST":
         form = AuthenticateForm(data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data["username"]
-            password = form.cleaned_data["password"]
-            account = authenticate(username=username, password=password)
-            if account is not None:
-                login(request, account)
-                return HttpResponseRedirect("/profile/")
-            else:
-                return render_to_response("login.html", {"form": form}, context_instance=RequestContext(request))
+            login(request, form.get_user())
+            # Success
+            return redirect("/")
         else:
-            return render_to_response("login.html", {"form": form}, context_instance=RequestContext(request))
-    else:
-        """user is not submitting the form, show the login form"""
-        form = LoginForm()
-        context = {"form": form}
-        return render_to_response("login.html", context, context_instance=RequestContext(request))
+            # Failure
+            return index(request, auth_form=form)
+    return redirect('/')
 
-def LogoutRequest(request):
+
+def logout_view(request):
     logout(request)
-    return HttpResponseRedirect("/")
+    return redirect("/")
+
+
+@login_required
+def newsfeed(request, message_form=None):
+    """ Making up the news feed
+
+    Return a list of latest 10 messages from everyone the user
+    follows plus his own messages, also includes any latest activity.
+    For example, User1 created a new class in English.
+    """
+    message_form = message_form or MessagesForm
+    messages = Messages.objects.reverse()[:10]
+    return render(request, 'newsfeed.html', {
+        'message_form': message_form,
+        'next_url': '/newsfeed'
+        'messages': messages,
+        'username': request.user.username
+    })
+
+@login_required
+def message_submit(request):
+    if request.method == "POST":
+        message_form = MessagesForm(data=request.POST)
+        next_url - request.POST.get("next_url", "/newsfeed")
+
+        if message_form.is_valid():
+            message = message_form.save(commit=False)
+            message.user = request.user
+            message.save()
+            return redirect(next_url)
+        else:
+            return newsfeed(request, message_form)
+    return redirect('/')
+
+def get_latest(user):
+    try:
+        return user.message_set.order_by('id').reverse()[0]
+    except IndexError:
+        return ""
+
+@login_required
+def users(request, username="", message_form=None):
+    if username:
+        # Show a profile
+        user = get_object_or_404(username=username)
+        messages = Message.objects.filter(user=user.id)
+        if username == request.user.username or request.user.profile.follows.filter(user__username=username):
+            # Self Profile
+            return render(request, 'user.html', {'user': user, 'messages': messages, })
+        return render(request, 'user.html', {'user': user, 'messages': messages, 'follow': True, })
+    users = User.objects.all().annotate(message=Count('message'))
+    messages = map(get_latest, users)
+    obj = zip(users, message)
+    message_form = message_form or MessagesForm()
+    return render(request,
+                  'profiles.html',
+                  {'obj': obj, 'next_url': '/users/',
+                   'message_form': message_form,
+                   'username': request.user.username, })
+
+
+@login_required
+def follow(request):
+    if request.method == "POST":
+        follow_id = request.POST.get('follow', False)
+        if follow_id:
+            try:
+                user = User.objects.get(id=follow_id)
+                request.user.profile.follows.add(user.profile)
+            except ObjectDoesNotExist:
+                return redirect('/users/')
+    return redirect('/users/')
+
