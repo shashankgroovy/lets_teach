@@ -105,7 +105,7 @@ ROOT_URLCONF = 'letsteach.urls'
 WSGI_APPLICATION = 'letsteach.wsgi.application'
 
 TEMPLATE_DIRS = (
-    root("templates")
+    root("templates"),
 )
 
 # provide our get_profile()
