@@ -1,27 +1,32 @@
 body {
   margin: 0;
+  background: url('http://unsplash.s3.amazonaws.com/batch%209/sander-zelhem-green-passage.jpg');
   background-color: #f2f2f2;
   font-family: Ubuntu;
   font-size: 14px;
   color: #a2a2a2;
+  position: relative;
 }
 img {
   width: 15px;
   height: 15px;
 }
 
-.content {
-  background-color: #f2f2f2;
+.main {
+  /*background-color: #f2f2f2;*/
+  z-index: 1;
 }
 
 #header , #header a {
-  background-color: #4d7dcc;
+  background-color: #60C4D4;
   color: #ffffff;
+  opacity: .7;
   text-decoration: none;
   font-family: 'League Gothic';
   letter-spacing: 3px;
-  height: auto;
-  overflow: auto;
+  height: 5em;
+  position: absolute;
+  z-index: 99;
 }
 
 #site-logo {
@@ -48,8 +53,7 @@ img {
 }
 
 ul {
-	counter-reset: number;
-	list-style: none; 
+  list-style: none; 
   margin-top: 3em;
 }
 
@@ -58,7 +62,7 @@ li.story {
   padding: 1px;
   margin: auto;
   width: 90%;
-  margin-bottom: 1em;
+  margin-bottom: .1em;
   display: block;
 }
 
@@ -81,10 +85,8 @@ li.story {
   color: #aaaaaa;
 }
 
-.story a:nth-child(2n):before {
-	content: counter(number);
-	counter-increment: number;
-  background: #3262AE;
+.num {
+  background: #0B86A9;
   float: left;
   width: 64px;
   min-height: 100%;
@@ -94,10 +96,10 @@ li.story {
   text-align: center;
   font-size: 30px;
   margin-top: -15px;
-  margin-left: -1px;
+  margin-left: 20px;
 }
 
-.story a:nth-child(2n):hover:before {
+.num:hover {
   background: #9bd8e9;
   background: #8cc1e4;
   transition: all .3s ease-in;
