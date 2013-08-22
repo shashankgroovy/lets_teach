@@ -91,15 +91,16 @@ def newsfeed(request, message_form=None):
     """
     message_form = message_form or MessagesForm
     messages = Messages.objects.reverse()[:10]
-    return render(request, 'newsfeed.html', {
+    return render(request, 'accounts/newsfeed.html', {
         'message_form': message_form,
         'next_url': '/newsfeed'
         'messages': messages,
         'username': request.user.username
     })
 
+
 @login_required
-def message_submit(request):
+def message_post(request):
     if request.method == "POST":
         message_form = MessagesForm(data=request.POST)
         next_url - request.POST.get("next_url", "/newsfeed")
@@ -119,6 +120,7 @@ def get_latest(user):
     except IndexError:
         return ""
 
+
 @login_required
 def users(request, username="", message_form=None):
     if username:
@@ -127,14 +129,21 @@ def users(request, username="", message_form=None):
         messages = Message.objects.filter(user=user.id)
         if username == request.user.username or request.user.profile.follows.filter(user__username=username):
             # Self Profile
-            return render(request, 'user.html', {'user': user, 'messages': messages, })
-        return render(request, 'user.html', {'user': user, 'messages': messages, 'follow': True, })
+            return render(request, 'accounts/user.html', {'user': user, 'messages': messages, })
+        return render(request, 'accounts/user.html', {'user': user, 'messages': messages, 'follow': True, })
+
     users = User.objects.all().annotate(message=Count('message'))
+
+    # Usage map(function, iterable), apply function to every item and
+    # return a list of the results,
     messages = map(get_latest, users)
-    obj = zip(users, message)
+    # the zip function returns a list of tuples with a tuple containing each
+    # of the argument sequences or iterables.
+    obj = zip(users, messages)
+
     message_form = message_form or MessagesForm()
     return render(request,
-                  'profiles.html',
+                  'accounts/profiles.html',
                   {'obj': obj, 'next_url': '/users/',
                    'message_form': message_form,
                    'username': request.user.username, })
@@ -142,6 +151,7 @@ def users(request, username="", message_form=None):
 
 @login_required
 def follow(request):
+    """ Follow a person, and get their latest activities"""
     if request.method == "POST":
         follow_id = request.POST.get('follow', False)
         if follow_id:
