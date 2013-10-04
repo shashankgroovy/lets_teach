@@ -3,11 +3,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models. import Count
+from django.db.models import Count
 from django.core.exceptions import ObjectDoesNotExist
 
-from accounts.forms import UserCreationForm, AuthenticationForm, MessagesForm
-from accounts.models import Messages
+from accounts.forms import UserCreateForm, AuthenticateForm, MessagesForm
+from accounts.models import Message
 
 
 def index(request, auth_form=None, user_form=None):
@@ -16,13 +16,13 @@ def index(request, auth_form=None, user_form=None):
     if request.user.is_authenticated():
         message_form = MessagesForm()
         user = request.user
-        messages_self = Messages.objects.filter(user=user.id)
-        messages_friends = Messages.objects.filter(user__userprofile__in=user.profile.follows.all)
+        messages_self = Message.objects.filter(user=user.id)
+        messages_friends = Message.objects.filter(user__userprofile__in=user.profile.follows.all)
         messages = messages_self | messages_friends
 
         return render(request, 'accounts/home.html', {
-            'mesage_form': message_form,
-            'user':, request.user,
+            'message_form': message_form,
+            'user': request.user,
             'messages': messages,
             'next_url': '/',
         })
@@ -53,7 +53,7 @@ def signup(request):
             account.birthday = form.cleaned_data["birthday"]
             account.save()
             return redirect('/profile/')
-        else:')
+        else:
             return index(request, user_form=user_form)
     else:
         """user is not submitting the form, show them a blank registration form"""
@@ -83,19 +83,19 @@ def logout_view(request):
 
 @login_required
 def newsfeed(request, message_form=None):
-    """ Making up the news feed
+    """Makes up the news feed.
 
-    Return a list of latest 10 messages from everyone the user
-    follows plus his own messages, also includes any latest activity.
+    Return a stream of latest 10 messages and activities from everyone a user
+    follows in addition to his own messages, latest activity if any.
     For example, User1 created a new class in English.
     """
     message_form = message_form or MessagesForm
-    messages = Messages.objects.reverse()[:10]
+    messages = Message.objects.reverse()[:10]
     return render(request, 'accounts/newsfeed.html', {
-        'message_form': message_form,
-        'next_url': '/newsfeed'
-        'messages': messages,
-        'username': request.user.username
+                'message_form': message_form,
+                'next_url': '/newsfeed',
+                'messages': messages,
+                'username': request.user.username,
     })
 
 
@@ -103,7 +103,7 @@ def newsfeed(request, message_form=None):
 def message_post(request):
     if request.method == "POST":
         message_form = MessagesForm(data=request.POST)
-        next_url - request.POST.get("next_url", "/newsfeed")
+        next_url = request.POST.get("next_url", "/newsfeed")
 
         if message_form.is_valid():
             message = message_form.save(commit=False)
@@ -142,16 +142,23 @@ def users(request, username="", message_form=None):
     obj = zip(users, messages)
 
     message_form = message_form or MessagesForm()
-    return render(request,
-                  'accounts/profiles.html',
-                  {'obj': obj, 'next_url': '/users/',
-                   'message_form': message_form,
-                   'username': request.user.username, })
+    return render(request, 'accounts/profiles.html', {
+                'obj': obj,
+                'next_url': '/users/',
+                'message_form': message_form,
+                'username': request.user.username, })
 
 
 @login_required
 def follow(request):
-    """ Follow a person, and get their latest activities"""
+    """Adds a user to list of followed users, to get their latest activities.
+
+    The method has an asymmetrical approach i.e. if user1 follows user2,
+    then user2 does not necessarily follow user1 back. Thus user1 gets the
+    latest activites and messages of user2 however user2 may not see any
+    update of user1.
+    Returns the number of followed users.
+    """
     if request.method == "POST":
         follow_id = request.POST.get('follow', False)
         if follow_id:

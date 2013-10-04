@@ -32,7 +32,7 @@ class UserProfile(models.Model):
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
-class Messages(models.Model):
+class Message(models.Model):
     content = models.CharField(max_length=140)
     user = models.ForeignKey(User)
     creation_date = models.DateTimeField(auto_now=True, blank=True)

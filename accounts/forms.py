@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.utils.html import strip_tags
 
-from accounts.models import Messages
+from accounts.models import Message
 
 class UserCreateForm(UserCreationForm):
 
@@ -53,18 +53,18 @@ class AuthenticateForm(AuthenticationForm):
                 self.fields[f].widget.attrs.update({'class': 'error', 'value': strip_tags(error)})
         return form
 
+
 class MessagesForm(forms.ModelForm):
     content = forms.CharField(required=True, widget=forms.widgets.Textarea(attrs={'class': 'message'}))
 
     def is_valid(self):
-        form = super(MessagesForm), self).is_valid()
+        form = super(MessagesForm, self).is_valid()
         for f in self.errors.iterkeys():
             if f != '__all__':
                 self.fields[f].widget.attrs.update({'class': 'error message'})
         return form
 
     class Meta:
-        model = Messages
+        model = Message
         exclude = ('user',)
-
 
