@@ -119,6 +119,7 @@ DJANGO_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django.contrib.comments'
 )
 
 THIRD_PARTY_APPS = (
@@ -127,6 +128,7 @@ THIRD_PARTY_APPS = (
 
 LOCAL_APPS = (
     'accounts',
+    'forum',
 )
 
 INSTALLED_APPS =  DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
