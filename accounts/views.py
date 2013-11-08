@@ -39,7 +39,7 @@ def index(request, auth_form=None, user_form=None):
 
 def signup(request):
     if request.user.is_authenticated():
-        return HttpResponseRedirect("/profile/")
+        return HttpResponseRedirect("/")
     if request.method == "POST":
         user_form = UserCreateForm(data=request.POST)
         if form.is_valid():
@@ -52,17 +52,17 @@ def signup(request):
             account.name = form.cleaned_data["name"]
             account.birthday = form.cleaned_data["birthday"]
             account.save()
-            return redirect('/profile/')
+            return redirect('/')
         else:
             return index(request, user_form=user_form)
     else:
         """user is not submitting the form, show them a blank registration form"""
-        form = RegistrationForm()
+        form = UserCreateForm()
         return render(request, 'accounts/signup.html', {'form': form})
 
 def login_view(request):
     if request.user.is_authenticated():
-        return HttpResponseRedirect("/profile/")
+        return HttpResponseRedirect("/profile/{{ user.username }}")
 
     if request.method == "POST":
         form = AuthenticateForm(data=request.POST)
