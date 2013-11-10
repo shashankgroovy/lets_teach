@@ -2,15 +2,164 @@
 {% load url from future %}
 
 {% block head %}
-  <script src="{{ STATIC_URL }}js/signin.js"><</script>
-  <link href="{{ STATIC_URL }}css/carousel.css" rel="stylesheet" media="screen">
-  <title>Lets Teach - Collaborative platform for volunteer teaching</title>
+    <link href="{{ STATIC_URL }}css/carousel.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}css/font-awesome.min.css"rel="stylesheet">
+    <script src="{{ STATIC_URL }}js/signin.js"><</script>
+    <script src="{{ STATIC_URL }}js/scroll.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,900' rel='stylesheet' type='text/css'>
+    <title>Lets Teach - Collaborative platform for volunteer teaching</title>
 {% endblock head %}
 
 {% block content %}
 
-<div class="">
-    <p>YOU are not logged in</p>
-</div>
+<!-- Carousel
+    ================================================== -->
+    <div id="myCarousel" class="carousel slide">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class=""></li>
+        <li class="" data-target="#myCarousel" data-slide-to="1"></li>
+        <li class="active" data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="item">
+            <img class="carousel-image" style="height: 800px; width: 100%; display: block;"
+            src="{{ STATIC_URL }}images/bag-and-hands.jpg" alt="First slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Collaborative</h1>
+              <p>A collaborative teaching platform for voluntary teaching.
+              Team-up with other contributors and spread education.</p>
+            </div>
+          </div>
+        </div>
+        <div class="item active">
+        <img class="carousel-image" style="height: 800px; width: 100%; display: block;"
+          src="{{ STATIC_URL}}images/irish-hands.jpg" alt="Second slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Effective</h1>
+              <p>A platform that realizes the importance of education in
+              today's society and bridges the gap between the underpriveleged
+              and well off.</p>
+              <p><a class="btn btn-large btn-success" href="#midriff">Learn more</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+        <img class="carousel-image" style="height: 800px; width: 100%; display: block;"
+          src="{{ STATIC_URL }}images/doctype-hi-res.jpg" alt="Third slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Productive</h1>
+              <p>A medium that suggests to promote and possess voluntary teaching.
+              And implicate gamification methods and facilitate education for all.</p>
+              <p><a class="btn btn-large btn-success" href="signup/">Sign up today</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div>
+<!-- /carousel -->
 
-{% endblock %}
+<!-- pagedown button -->
+    <div class="pagedown">
+    <a class="" href="#marker"><img src="{{STATIC_URL}}images/pagedown.png" alt="pagedown" /></a>
+    </div>
+
+<!--starting featurettes-->
+    <div id="marker" class="container marketing">
+        <p class="marker-header">What's in store for you?</p>
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Volunteer. 
+                   <span class="text-muted">Make a difference.</span></h2>
+            <p class="lead">Collaborative teaching is a method or practice which allows teachers to mutually collaborate
+        through various means for different purposes online or offline and
+        outside or inside classroom education.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive"
+                src="{{STATIC_URL}}images/volunteer.jpg" alt="volunteer image">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+        <div class="row featurette">
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive"
+                src="{{STATIC_URL}}images/books.jpg" alt="teach image">
+            </div>
+            <div class="col-md-7">
+            <h2 class="featurette-heading">Teach. <span
+                    class="text-muted">Gamify your course.</span></h2>
+            <p class="lead">Gamification for motivation during literature study
+            showed us that fulfillment forms
+        as a major motivation for volunteers. Thus by introducing Gamification in our solution
+    we try to bring a sense of fulfillment to you: the voluntary teachers.</p>
+            </div>
+        </div>
+    </div>
+
+<!-- pagedown button -->
+    <div class="pagedown">
+        <a class="" href="#midriff"><img src="{{STATIC_URL}}images/pagedown.png" alt="pagedown" /></a>
+    </div>
+
+<!-- midriff section-->
+    <div id="midriff" class="midriff">
+       <p class="midriff-banner">Here's something more about us</p>
+        <!--plant the tree-->
+        <div class="logo">
+            <div id="tree"></div>
+            <div id="trunk">
+                <div id="left-branch"></div>
+                <div id="right-bottom-branch"></div>
+                <div id="right-top-branch"></div>
+            </div>
+        </div>
+    
+        <p class="midriff-quote">We believe that the world is a "Big Tree of
+        Knowledge" and education its roots. The only way we can shelter more leaves
+        is if spread our roots and reach those nifty ends which get loose.</p>
+
+        <!-- Three columns of text below the tree-->
+        <div class="row midriff-columns">
+            <div class="col-lg-4">
+                <span class="glyphicon glyphicon-cog midriff-glyphicon"></span>
+                <h2 class="midriff-heading">Our Platform</h2>
+                <p class="midriff-text">LetsTeach is a CMS platform, that
+                incorporates all the features you'll need to start you own
+                tutoring.</p>
+                <hr class="midriff-hr"/>
+                <p><a class="midriff-link" href="#midriff">Read More</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <span class="glyphicon glyphicon-eye-open midriff-glyphicon"></span>
+                <h2 class="midriff-heading">Our Vision</h2>
+                <p class="midriff-text">To abridge the gap and make education
+                accessible to the underprivileged array of people.</p>
+                <hr class="midriff-hr"/>
+                <p><a class="midriff-link" href="#midriff">Read More</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <span class="glyphicon glyphicon-globe midriff-glyphicon"></span>
+                <h2 class="midriff-heading">Our Ideas</h2>
+                <p class="midriff-text">We want to build a medium and network of volunteer
+                teachers who can empower and teach children.</p>
+                <hr class="midriff-hr"/>
+                <p><a class="midriff-link" href="#midriff">Read More</a></p>
+            </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+    </div>
+  
+<!--closure-->
+    <div id="closure" class="container closure">
+        <p>Want to be a part of LetsTeach? <span class="text-muted">Be the
+            change.</span>
+        <a class="btn btn-lg btn-success getstart" href="signup/">Get started &nbsp;&nbsp;<span
+                class="glyphicon glyphicon-arrow-right"></span></a></p>
+    </div>
+
+{% endblock content %}
